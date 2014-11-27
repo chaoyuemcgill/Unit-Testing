@@ -18,7 +18,7 @@ import Database.*;
 import gameplayModel.*;
 import menuModel.*;
 
-public class fileIO /*extends Database*/{
+public class fileIO extends Database{
 	
 	File filecurrent = new File("database.csv");
 	File filebak = new File("databasebak.csv");
@@ -40,7 +40,7 @@ public class fileIO /*extends Database*/{
 		System.out.println("test");
 		//ArrayList<Player> players;
 		//players = new ArrayList<Player>();
-		new Database().generateCSV();
+		//new Database().generateCSV();
 		//generateCSV();
 	}
 	

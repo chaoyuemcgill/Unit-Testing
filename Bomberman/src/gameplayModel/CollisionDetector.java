@@ -7,96 +7,48 @@ package gameplayModel;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author Jonti
- */
-
 public class CollisionDetector {
 	
 	private GameContext gameContext;
 	private ArrayList<Brick> bricks;
 	private ArrayList<Enemy> enemies;
-	private boolean collision;
 	
 	public CollisionDetector(GameContext gC) {
 		
 		gameContext = gC;
 		bricks = gameContext.getGridMap().getBricks();
 		enemies = gameContext.getGridMap().getEnemies();
-		boolean collision = false;
 	}
-	
-	public boolean checkCollision(GridObject a, GridObject b) {
-       
-        /*if(checkExactCollision(a,b))
-           return true;
-        else*/ if(a.getYPosition()==b.getYPosition())
-       {
-           if(a.getXPosition()-b.getXPosition()>0)
-           {
-               if (b.getXPosition()+GridObject.EFFECTIVE_PIXEL_WIDTH >= a.getXPosition())
-               {
-                   return true;
-               }
-           }
-           if(a.getXPosition()-b.getXPosition()<0)
-           {
-               if (a.getXPosition()+GridObject.EFFECTIVE_PIXEL_WIDTH >= b.getXPosition())
-               {
-                   return true;
-               }
-           }
-       }
-        else if(a.getXPosition()==b.getXPosition())
-       {
-           if(a.getYPosition()-b.getYPosition()>0)
-           {
-               if (b.getYPosition()+GridObject.EFFECTIVE_PIXEL_HEIGHT >= a.getYPosition())
-               {
-                   return true;
-               }
-           }
-           if(a.getXPosition()-b.getXPosition()<0)
-           {
-               if (a.getYPosition()+GridObject.EFFECTIVE_PIXEL_HEIGHT >= b.getYPosition())
-               {
-                   return true;
-               }
-           }
-       }
-       return false;
-    }
-	public boolean checkUpCollision(GridObject bomberman, GridObject b) {
+
+	public boolean checkUpCollision(GridObject a, GridObject b) {
 		
-		if(Math.abs(bomberman.getXPosition() - b.getXPosition()) < bomberman.MISALIGNMENT_ALLOWED) 
-			return ((b.getYPosition() + GridObject.EFFECTIVE_PIXEL_HEIGHT > bomberman.getYPosition()) && (b.getYPosition() < bomberman.getYPosition()));
+		if (Math.abs(a.getXPosition() - b.getXPosition()) < GridObject.MISALIGNMENT_ALLOWED) 
+			return ((b.getYPosition() + GridObject.EFFECTIVE_PIXEL_HEIGHT > a.getYPosition()) && (b.getYPosition() < a.getYPosition()));
 		
 		return false;
 	}
 	
-	public boolean checkDownCollision(GridObject bomberman, GridObject b) {
+	public boolean checkDownCollision(GridObject a, GridObject b) {
 		
-		if(Math.abs(bomberman.getXPosition() - b.getXPosition()) < bomberman.MISALIGNMENT_ALLOWED) 
-			return ((bomberman.getYPosition() + GridObject.EFFECTIVE_PIXEL_HEIGHT > b.getYPosition()) && (bomberman.getYPosition() < b.getYPosition()));
+		if (Math.abs(a.getXPosition() - b.getXPosition()) < GridObject.MISALIGNMENT_ALLOWED) 
+			return ((a.getYPosition() + GridObject.EFFECTIVE_PIXEL_HEIGHT > b.getYPosition()) && (a.getYPosition() < b.getYPosition()));
 			
 		return false;
 	}
 	
-	public boolean checkLeftCollision(GridObject bomberman, GridObject b) {
+	public boolean checkLeftCollision(GridObject a, GridObject b) {
 		
-		if(bomberman.getYPosition()==b.getYPosition())
-			return((b.getXPosition()+GridObject.EFFECTIVE_PIXEL_WIDTH > bomberman.getXPosition())&&(b.getXPosition()< bomberman.getXPosition()));
+		if (Math.abs(a.getYPosition() - b.getYPosition()) < GridObject.MISALIGNMENT_ALLOWED)
+			return((b.getXPosition() + GridObject.EFFECTIVE_PIXEL_WIDTH > a.getXPosition()) && (b.getXPosition() < a.getXPosition()));
 		
 		return false;
 	}
 	
-	public boolean checkRightCollision(GridObject bomberman, GridObject b) {
+	public boolean checkRightCollision(GridObject a, GridObject b) {
    
-       if(bomberman.getYPosition()==b.getYPosition())
-        return((bomberman.getXPosition()+GridObject.EFFECTIVE_PIXEL_WIDTH > b.getXPosition())&&(bomberman.getXPosition()< b.getXPosition()));
+       if (Math.abs(a.getYPosition() - b.getYPosition()) < GridObject.MISALIGNMENT_ALLOWED)
+    	   return ((a.getXPosition() + GridObject.EFFECTIVE_PIXEL_WIDTH > b.getXPosition()) && (a.getXPosition() < b.getXPosition()));
        
-
        return false;
 	}
 

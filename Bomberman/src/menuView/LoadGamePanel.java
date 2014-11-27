@@ -46,7 +46,7 @@ public class LoadGamePanel extends JPanel {
 	public LoadGamePanel(ActionListener listener){
 	
 		try {
-		      img = ImageIO.read(new File("bomber.png"));
+		      img = ImageIO.read(new File("bomber2.png"));
 		    } catch(IOException e) {
 		      e.printStackTrace();
 		    }
@@ -81,26 +81,32 @@ public class LoadGamePanel extends JPanel {
 		savename = new JLabel();
         savename.setFont(new Font("Eurostile", 1, 15)); // NOI18N
         savename.setText("Save Name:");
+        savename.setForeground(Color.white);
         
 		level = new JLabel();
         level.setFont(new Font("Eurostile", 1, 15)); // NOI18N
         level.setText("Level:");
+        level.setForeground(Color.white);
         
 		datesaved = new JLabel();
 		datesaved.setFont(new Font("Eurostile", 1, 15)); // NOI18N
 		datesaved.setText("Date Saved:");
+		datesaved.setForeground(Color.white);
 		
 		levelNumber = new JLabel();
 		levelNumber.setFont(new Font("Eurostile", 0, 13));
 		levelNumber.setText("          ");
+		levelNumber.setForeground(Color.white);
 		
 		name = new JLabel();
 		name.setFont(new Font("Eurostile", 0, 13));
 		name.setText("      ");
+		name.setForeground(Color.white);
 		
 		date = new JLabel();
 		date.setFont(new Font("Eurostile", 0, 13));
 		date.setText("                                  ");
+		date.setForeground(Color.white);
 		
 		setupLayout();
 		

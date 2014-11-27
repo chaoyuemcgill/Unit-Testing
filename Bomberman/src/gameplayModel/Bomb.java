@@ -13,7 +13,7 @@ public class Bomb extends AnimatedObject {
 	
 	public static enum AnimationType {unexploded, expCenter, expRight, expLeft, expDown, expUp,expVertical, expHorizontal};
 	
-	public final int TIME_TO_EXPLOSION = 2000;
+	public final int TIME_TO_EXPLOSION = 2500;
 	
 	private ArrayList<Animation> currentAnimations;
 	private ArrayList<Integer> animXOffset, animYOffset;

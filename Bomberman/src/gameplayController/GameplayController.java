@@ -57,8 +57,7 @@ public class GameplayController implements ActionListener {
 	public GameplayController(MenuController menuCtrl) {
 		
 		this.menuCtrl = menuCtrl;
-		//gameContext = new GameContext(menuCtrl.getSelectedLevel());
-		gameContext = new GameContext();
+		gameContext = new GameContext(menuCtrl.getSelectedLevel());
 		initialize();
     	setupGameFrame(true);
     	timer = new Timer(TIMEOUT, this);
@@ -105,7 +104,16 @@ public class GameplayController implements ActionListener {
 					else
 						bomberman.getCurrentAnimation().cycleFrame();
 					
-					bomberman.setYPosition(bomberman.getYPosition() - bomberman.getSpeed());
+					boolean canMoveUp = true;
+					
+					for (Bomb bomb : bombs) {
+						if (colDetect.checkUpCollision(bomberman, bomb))
+							canMoveUp = false;
+					}
+					
+					if (canMoveUp)
+						bomberman.setYPosition(bomberman.getYPosition() - bomberman.getSpeed());
+					
 					break;
 				case KeyEvent.VK_DOWN:
 					if (bomberman.getAnimationNumber() != Bomberman.AnimationType.down.ordinal())
@@ -113,7 +121,16 @@ public class GameplayController implements ActionListener {
 					else
 						bomberman.getCurrentAnimation().cycleFrame();
 					
-					bomberman.setYPosition(bomberman.getYPosition() + bomberman.getSpeed());
+					boolean canMoveDown = true;
+					
+					for (Bomb bomb : bombs) {
+						if (colDetect.checkDownCollision(bomberman, bomb))
+							canMoveDown = false;
+					}
+					
+					if (canMoveDown)
+						bomberman.setYPosition(bomberman.getYPosition() + bomberman.getSpeed());
+					
 					break;
 				case KeyEvent.VK_LEFT:
 					if (bomberman.getAnimationNumber() != Bomberman.AnimationType.left.ordinal())
@@ -121,7 +138,16 @@ public class GameplayController implements ActionListener {
 					else
 						bomberman.getCurrentAnimation().cycleFrame();
 					
-					bomberman.setXPosition(bomberman.getXPosition() - bomberman.getSpeed());
+					boolean canMoveLeft = true;
+					
+					for (Bomb bomb : bombs) {
+						if (colDetect.checkLeftCollision(bomberman, bomb))
+							canMoveLeft = false;
+					}
+					
+					if (canMoveLeft)
+						bomberman.setXPosition(bomberman.getXPosition() - bomberman.getSpeed());
+					
 					break;
 				case KeyEvent.VK_RIGHT:
 					if (bomberman.getAnimationNumber()!= Bomberman.AnimationType.right.ordinal())
@@ -129,7 +155,16 @@ public class GameplayController implements ActionListener {
 					else
 						bomberman.getCurrentAnimation().cycleFrame();
 					
-					bomberman.setXPosition(bomberman.getXPosition() + bomberman.getSpeed());
+					boolean canMoveRight = true;
+					
+					for (Bomb bomb : bombs) {
+						if (colDetect.checkRightCollision(bomberman, bomb))
+							canMoveRight = false;
+					}
+					
+					if (canMoveRight)
+						bomberman.setXPosition(bomberman.getXPosition() + bomberman.getSpeed());
+					
 					break;
 				case KeyEvent.VK_ENTER:
 					if (bomberman.getAnimationNumber() != Bomberman.AnimationType.death.ordinal())
@@ -215,6 +250,27 @@ public class GameplayController implements ActionListener {
     		}
     	}
     	
+    	for (Brick brick : bricks) {
+    		
+    		if (colDetect.checkRightCollision(bomberman, brick))
+				bomberman.setXPosition(brick.getXPosition() - GridObject.EFFECTIVE_PIXEL_WIDTH);
+			if (colDetect.checkLeftCollision(bomberman, brick))
+				bomberman.setXPosition(brick.getXPosition() + GridObject.EFFECTIVE_PIXEL_WIDTH);
+			if (colDetect.checkDownCollision(bomberman, brick))
+				bomberman.setYPosition(brick.getYPosition() - GridObject.EFFECTIVE_PIXEL_HEIGHT);
+			if (colDetect.checkUpCollision(bomberman, brick))
+				bomberman.setYPosition(brick.getYPosition() + GridObject.EFFECTIVE_PIXEL_HEIGHT);
+    	}
+    	
+    	for (Enemy enemy : enemies) {
+    		
+    		boolean isHorzCollision = colDetect.checkRightCollision(bomberman, enemy) || colDetect.checkLeftCollision(bomberman, enemy);
+    		boolean isVertCollision = colDetect.checkDownCollision(bomberman, enemy) || colDetect.checkUpCollision(bomberman, enemy); 
+    		
+    		if (isHorzCollision || isVertCollision)
+    			bomberman.triggerDeath();
+    	}
+    	
     	for (int i = 0 ; i < bricks.size() ;) {
     		
     		if (bricks.get(i).isObsolete()) {
@@ -225,6 +281,29 @@ public class GameplayController implements ActionListener {
     		} else {
     			i++;
     		}
+    	}
+    	
+    	if (colDetect.checkExactCollision(bomberman, exitway) && enemies.size() == 0) {
+    		
+    		gameContext.increaseLevel();
+    		gameContext.initializeGameTime();
+    		gameContext.restartMap();
+    		initialize();
+    		
+    		try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		
+    		gameContext.increaseLivesLeft();
+    		timer.start();
+    	}
+    	
+    	if (powerup != null && colDetect.checkExactCollision(bomberman, powerup)) {
+    		bomberman.addPowerUp(powerup);
+    		powerup = null;
     	}
     	
     	if (placeBomb)
@@ -333,15 +412,11 @@ public class GameplayController implements ActionListener {
         		}
     			i++;
     		} else if (enemies.get(i).isObsolete()) {
-    			
-    			System.out.println(enemies.size());
     			enemies.remove(i);
     		} else {
     			enemies.get(i).cycleAnimation();
     			i++;
     		}
-    		
-
     	}
     }
     

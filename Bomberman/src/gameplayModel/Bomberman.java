@@ -11,7 +11,7 @@ public class Bomberman extends AnimatedObject {
 
 	public static enum AnimationType {right, left, down, up, death};
 	
-	public final int INITIAL_SPEED = 6,SPEED_INCREMENT = 2, MISALIGNMENT_ALLOWED = 16;
+	public final int INITIAL_SPEED = 4,SPEED_INCREMENT = 2, MISALIGNMENT_ALLOWED = 16;
 	
 	private int speed, bombsAvailable, bombsLeft;
 

@@ -151,25 +151,34 @@ public class ArtificialIntelligence
                     }
                   //System.out.println("DIRECTION -> "+temp.getDirection());
 
-                    if(temp.getSmartness()==2)
+                    if(temp.getSmartness()>1)
                     {
-                        if(bomberman.getXPosition() == temp.getXPosition())
+                        if(bomberman.getXPosition()==temp.getXPosition())
                         {
-                            if((bomberman.getYPosition()-GridObject.EFFECTIVE_PIXEL_HEIGHT*(2) <= temp.getYPosition())&&(temp.getYPosition()<bomberman.getYPosition()))
+                            if((bomberman.getYPosition()-(GridObject.EFFECTIVE_PIXEL_HEIGHT*(2)) <= temp.getYPosition())&&(temp.getYPosition()<bomberman.getYPosition()))
                                  temp.setDirection(1);
-                            if((bomberman.getYPosition()+GridObject.EFFECTIVE_PIXEL_HEIGHT*(2) >= temp.getYPosition())&&(temp.getYPosition()>bomberman.getYPosition()))
+                            
+                            if((bomberman.getYPosition()+(GridObject.EFFECTIVE_PIXEL_HEIGHT*(2)) >= temp.getYPosition())&&(temp.getYPosition()>bomberman.getYPosition()))
                                  temp.setDirection(0);
                         }
-                         if(bomberman.getYPosition() == temp.getYPosition())
+                        if(bomberman.getYPosition()==temp.getYPosition())
                         {
-                            if((bomberman.getXPosition()+GridObject.EFFECTIVE_PIXEL_WIDTH*(2) >= temp.getXPosition())&&(temp.getXPosition()>bomberman.getXPosition()+GridObject.EFFECTIVE_PIXEL_WIDTH/2))
+                            if((bomberman.getXPosition()-(GridObject.EFFECTIVE_PIXEL_WIDTH*(2)) <= temp.getXPosition())&&(temp.getXPosition()<bomberman.getXPosition()))
+                                 temp.setDirection(3);
+                            
+                            if((bomberman.getXPosition()+(GridObject.EFFECTIVE_PIXEL_HEIGHT*(2)) >= temp.getXPosition())&&(temp.getXPosition()>bomberman.getXPosition()))
+                                 temp.setDirection(2);
+                        }
+                        /* if(bomberman.getYPosition()==temp.getYPosition())
+                        {
+                            if((bomberman.getXPosition()+GridObject.EFFECTIVE_PIXEL_WIDTH*(2) >= temp.getXPosition())&&(temp.getXPosition()>=bomberman.getXPosition()+GridObject.EFFECTIVE_PIXEL_WIDTH))
                             {   
                                // System.out.println(temp.getXPosition()+", "+temp.getYPosition()+" ----- bomberman : "+bomberman.getXPosition()+", "+bomberman.getYPosition());
                                 temp.setDirection(2);
                             }
-                            if((bomberman.getXPosition()-GridObject.EFFECTIVE_PIXEL_WIDTH*(2) <= temp.getXPosition())&&(temp.getXPosition()+GridObject.EFFECTIVE_PIXEL_WIDTH/2<bomberman.getXPosition()))
+                            if((bomberman.getXPosition()-GridObject.EFFECTIVE_PIXEL_WIDTH*(2) <= temp.getXPosition())&&(temp.getXPosition()+GridObject.EFFECTIVE_PIXEL_WIDTH<=bomberman.getXPosition()))
                                  temp.setDirection(3);
-                        }
+                        }*/
                      }      
 
                   
